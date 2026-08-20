@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TORA — Layar Dapur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#0d0d0d;color:#f3f4f6}
+header{background:#141414;color:#d4af37;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2a2a}
+header h1{margin:0;font-family:'Playfair Display',serif;font-size:26px;letter-spacing:2px;color:#f3f4f6}
+header small{color:#a3a3a3;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+main{max-width:1300px;margin:auto;padding:24px}
+.card{background:#141414;border-radius:12px;padding:22px;border:1px solid #2a2a2a;box-shadow:0 10px 30px rgba(0,0,0,0.5);margin-bottom:20px}
+h2{font-family:'Playfair Display',serif;color:#d4af37;margin-top:0}
+.queue{font-size:36px;font-weight:800;text-align:center;background:#1a1a1a;color:#d4af37;border:1px solid #d4af37;border-radius:10px;padding:12px 24px;font-family:'Playfair Display',serif}
+.orders{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.order{background:#1a1a1a;border-radius:12px;padding:20px;border:1px solid #2a2a2a;display:flex;flex-direction:column;justify-content:space-between}
+.order.new{border-color:#d4af37}
+.order.done{border-color:#15803d;opacity:0.5}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#332600;color:#d4af37;font-size:11px;font-weight:700;text-transform:uppercase}
+.done .badge{background:#052e16;color:#4ade80}
+.order h3{margin:10px 0 4px;color:#fff;font-family:'Playfair Display',serif;font-size:20px}
+.order ul{padding-left:18px;margin:14px 0;color:#f3f4f6;font-size:15px}
+.order li{margin-bottom:6px}
+.muted{color:#737373;font-size:13px}
+.empty{text-align:center;color:#525252;padding:60px;font-size:18px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+button{border:0;border-radius:8px;padding:12px;font-weight:700;cursor:pointer;transition:0.2s;font-family:'Plus Jakarta Sans',sans-serif}
+.btn-done{background:#15803d;color:#fff;margin-top:14px;width:100%}.btn-done:hover{background:#16a34a}
+#clock{font-weight:600;letter-spacing:1px;color:#a3a3a3}
+@media(max-width:800px){.orders{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>T O R A</h1>
+    <small>Kitchen Display System — Dapur Utama</small>
+  </div>
+  <div id="clock"></div>
+</header>
+
+<main>
+<div class="card">
+  <div class="topline">
+    <div>
+      <h2>👨‍🍳 Monitor Dapur</h2>
+      <p class="muted">Pesanan dari kasir akan masuk secara otomatis.</p>
+    </div>
+    <div style="text-align:right">
+      <div class="muted" style="margin-bottom:4px">Antrian Berikutnya</div>
+      <div id="nextQueue" class="queue">#1</div>
+    </div>
+  </div>
+</div>
+
+<div id="kitchenOrders" class="orders"></div>
+</main>
+
+<script>
+let orders=JSON.parse(localStorage.getItem("tora_orders")||"[]");
+let lastQueue=Number(localStorage.getItem("tora_queue")||0);
+
+function save(){
+ localStorage.setItem("tora_orders",JSON.stringify(orders))
+}
+
+function statusOrder(id,status){
+ let o=orders.find(x=>x.id===id);
+ if(o){
+  o.status=status;
+  save();
+  renderOrders()
+ }
+}
+
+function renderOrders(){
+ document.getElementById("kitchenOrders").innerHTML=orders.length?orders.map(o=>`
+  <div class="order ${o.status==='Selesai'?'done':'new'}">
+   <div>
+    <div class="topline">
+     <span class="badge">${o.status}</span>
+     <b style="color:#d4af37;font-size:18px">#${o.queue}</b>
+    </div>
+    <h3>${o.customer}</h3>
+    <div class="muted">Jam Masuk: ${o.time}</div>
+    <ul>${o.items.map(x=>`<li>${x.name} — <b style="color:#d4af37">${x.qty} porsi</b></li>`).join("")}</ul>
+   </div>
+   ${o.status!=="Selesai"?`<button class="btn-done" onclick="statusOrder(${o.id},'Selesai')">✓ Tandai Sajian Selesai</button>`:'<div class="muted" style="margin-top:10px;text-align:center">Sajian telah diantar</div>'}
+  </div>
+ `).join(''):'<div class="empty">Tidak ada pesanan aktif saat ini.</div>';
+
+ let pending=orders.filter(x=>x.status!=="Selesai");
+ document.getElementById("nextQueue").textContent=pending.length?"#"+pending[pending.length-1].queue:"#"+(lastQueue+1)
+}
+
+function tick(){
+ document.getElementById("clock").textContent=new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit"})
+}
+
+// Menghubungkan secara realtime antar tab/jendela browser
+window.addEventListener("storage",()=>{
+ orders=JSON.parse(localStorage.getItem("tora_orders")||"[]");
+ lastQueue=Number(localStorage.getItem("tora_queue")||0);
+ renderOrders()
+});
+
+renderOrders();
+tick();
+setInterval(tick,1000);
+</script>
+</body>
+</html>
