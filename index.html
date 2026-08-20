@@ -1,205 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TORA — Sistem Kasir</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#0d0d0d;color:#f3f4f6}
-header{background:#141414;color:#d4af37;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2a2a}
-header h1{margin:0;font-family:'Playfair Display',serif;font-size:26px;letter-spacing:2px;color:#f3f4f6}
-header small{color:#a3a3a3;font-size:13px;letter-spacing:1px;text-transform:uppercase}
-main{max-width:1300px;margin:auto;padding:24px}
-.card{background:#141414;border-radius:12px;padding:22px;border:1px solid #2a2a2a;box-shadow:0 10px 30px rgba(0,0,0,0.5);margin-bottom:20px}
-.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:20px}
-.row{display:flex;gap:10px;align-items:end}
-h2,h3{font-family:'Playfair Display',serif;color:#d4af37;margin-top:0}
-label{font-size:12px;font-weight:700;display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;color:#a3a3a3}
-input{width:100%;padding:14px;background:#1f1f1f;border:1px solid #333;border-radius:8px;font-size:15px;color:#fff;outline:none;transition:0.3s}
-input:focus{border-color:#d4af37}
-button{border:0;border-radius:8px;padding:12px 18px;font-weight:700;cursor:pointer;transition:0.2s;font-family:'Plus Jakarta Sans',sans-serif}
-.btn{background:#d4af37;color:#0d0d0d}.btn:hover{background:#c59f27}
-.btn.red{background:#7f1d1d;color:#fca5a5}.btn.red:hover{background:#991b1b}
-.btn.gray{background:#2a2a2a;color:#d4d4d4}.btn.gray:hover{background:#3b3b3b}
-.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-height:400px;overflow-y:auto;padding-right:5px}
-.food{padding:16px;border:1px solid #2a2a2a;border-radius:10px;background:#1a1a1a;text-align:left;color:#fff;transition:0.2s}
-.food:hover{border-color:#d4af37;background:#222}
-.food b{display:block;font-size:15px;margin-bottom:4px;color:#f3f4f6}
-.food span{font-size:13px;color:#d4af37;font-weight:600}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #222}
-.qty button{padding:6px 12px;background:#2a2a2a;color:#fff;border-radius:6px}
-.qty button:hover{background:#d4af37;color:#000}
-.total{font-size:22px;font-weight:700;text-align:right;margin-top:18px;color:#d4af37;font-family:'Playfair Display',serif}
-.orders{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.order{background:#1a1a1a;border-radius:12px;padding:18px;border:1px solid #2a2a2a}
-.order.done{border-color:#15803d;opacity:0.6}
-.badge{display:inline-block;padding:4px 10px;border-radius:20px;background:#332600;color:#d4af37;font-size:11px;font-weight:700;text-transform:uppercase}
-.done .badge{background:#052e16;color:#4ade80}
-.order h3{margin:10px 0 4px;color:#fff}
-.order ul{padding-left:18px;margin:10px 0;color:#d4d4d4}
-.muted{color:#737373;font-size:13px}
-.empty{text-align:center;color:#525252;padding:40px}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
-#clock{font-weight:600;letter-spacing:1px;color:#a3a3a3}
-@media(max-width:800px){.grid,.orders{grid-template-columns:1fr}.menu{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header>
-  <div>
-    <h1>T O R A</h1>
-    <small>Fine Dining & Haute Cuisine — Terminal Kasir</small>
-  </div>
-  <div id="clock"></div>
-</header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir & Ordering App - tora.byka</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Fredoka & Plus Jakarta Sans for trendy playful vibe) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Sales Report -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<main>
-<div class="grid">
-  <div class="card">
-    <h2>Pesanan Baru</h2>
-    <label>Nama Tamu / Meja</label>
-    <input id="customer" placeholder="Contoh: Meja 05 - Bapak Adrian">
-    <h3 style="margin-top:20px">Pilihan Menu</h3>
-    <div class="menu" id="menu"></div>
-  </div>
-
-  <div class="card">
-    <div class="topline">
-      <h2>Rincian Pesanan</h2>
-      <button class="btn gray" onclick="clearCart()">Kosongkan</button>
-    </div>
-    <div id="cart"><div class="empty">Belum ada hidangan dipilih.</div></div>
-    <div class="total">Total: <span id="total">Rp0</span></div>
-    <button class="btn" style="width:100%;margin-top:18px;padding:15px" onclick="sendOrder()">Kirim Pesanan ke Dapur</button>
-  </div>
-</div>
-
-<div class="card">
-  <div class="topline">
-    <h2>Daftar Pesanan Hari Ini</h2>
-    <button class="btn red" onclick="resetAll()">Reset Semua Data</button>
-  </div>
-  <div id="cashierOrders" class="orders"></div>
-</div>
-</main>
-
-<script>
-const menuItems=[
- ["Wagyu A5 Striploin","Rp850.000"],["Truffle Butter Steak","Rp450.000"],["Lobster Thermidor","Rp520.000"],
- ["Seared Foie Gras","Rp380.000"],["Caviar Pasta","Rp290.000"],["Vintage Red Wine","Rp1.200.000"],
- ["Sparkling Water 750ml","Rp85.000"],["Gold Leaf Dessert","Rp150.000"]
-];
-let cart=[];
-let orders=JSON.parse(localStorage.getItem("tora_orders")||"[]");
-let lastQueue=Number(localStorage.getItem("tora_queue")||0);
-
-function rupiah(n){return "Rp"+n.toLocaleString("id-ID")}
-function price(s){return Number(s.replace(/[^\d]/g,""))}
-function save(){
- localStorage.setItem("tora_orders",JSON.stringify(orders));
- localStorage.setItem("tora_queue",lastQueue)
-}
-
-function renderMenu(){
- document.getElementById("menu").innerHTML=menuItems.map((m,i)=>`
-  <button class="food" onclick="addItem(${i})">
-   <b>${m[0]}</b>
-   <span>${m[1]}</span>
-  </button>
- `).join("")
-}
-
-function addItem(i){
- let x=cart.find(a=>a.name===menuItems[i][0]);
- if(x)x.qty++; else cart.push({name:menuItems[i][0],price:price(menuItems[i][1]),qty:1});
- renderCart()
-}
-
-function changeQty(i,d){
- cart[i].qty+=d;
- if(cart[i].qty<=0)cart.splice(i,1);
- renderCart()
-}
-
-function renderCart(){
- let el=document.getElementById("cart");
- if(!cart.length){
-  el.innerHTML='<div class="empty">Belum ada hidangan dipilih.</div>';
-  document.getElementById("total").textContent="Rp0";
-  return
- }
- el.innerHTML=cart.map((x,i)=>`
-  <div class="cart-item">
-   <div>
-    <b>${x.name}</b>
-    <div class="muted">${rupiah(x.price)} × ${x.qty}</div>
-   </div>
-   <div class="qty">
-    <button onclick="changeQty(${i},-1)">−</button>
-    <b style="margin:0 8px">${x.qty}</b>
-    <button onclick="changeQty(${i},1)">+</button>
-   </div>
-  </div>
- `).join("");
- document.getElementById("total").textContent=rupiah(cart.reduce((a,x)=>a+x.price*x.qty,0))
-}
-
-function sendOrder(){
- let name=document.getElementById("customer").value.trim();
- if(!name){alert("Mohon isi nama tamu atau nomor meja.");return}
- if(!cart.length){alert("Pilih minimal satu hidangan.");return}
- lastQueue++;
- orders.unshift({
-  id:Date.now(),
-  queue:lastQueue,
-  customer:name,
-  items:cart.map(x=>({...x})),
-  status:"Diproses",
-  time:new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})
- });
- save();
- cart=[];
- document.getElementById("customer").value="";
- renderCart();
- renderOrders();
- alert("Pesanan berhasil dikirim ke Dapur TORA! Nombor Antrian: #"+lastQueue)
-}
-
-function renderOrders(){
- document.getElementById("cashierOrders").innerHTML=orders.length?orders.map(o=>`
-  <div class="order ${o.status==='Selesai'?'done':''}">
-   <div class="topline">
-    <span class="badge">${o.status}</span>
-    <b style="color:#d4af37">#${o.queue}</b>
-   </div>
-   <h3>${o.customer}</h3>
-   <div class="muted">${o.time}</div>
-   <ul>${o.items.map(x=>`<li>${x.name} — <b>${x.qty} porsi</b></li>`).join("")}</ul>
-  </div>
- `).join(''):'<div class="empty">Belum ada pesanan masuk.</div>'
-}
-
-function clearCart(){cart=[];renderCart()}
-function resetAll(){
- if(confirm("Hapus seluruh data pesanan hari ini?")){
-  orders=[];lastQueue=0;save();renderOrders()
- }
-}
-
-function tick(){
- document.getElementById("clock").textContent=new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit"})
-}
-
-window.addEventListener("storage",()=>{
- orders=JSON.parse(localStorage.getItem("tora_orders")||"[]");
- lastQueue=Number(localStorage.getItem("tora_queue")||0);
- renderOrders()
-});
-
-renderMenu();renderCart();renderOrders();tick();
-setInterval(tick,1000);
-</script>
-</body>
-</html>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tora: {
+                            bg: '#0F172A',         // Sl
