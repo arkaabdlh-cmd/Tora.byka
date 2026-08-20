@@ -3,203 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tora.byka - POS & Kitchen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>tora.byka - Point of Sale & Kitchen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #e63946;
-            --primary-dark: #c1121f;
-            --secondary: #ffb703;
-            --dark: #1d3557;
-            --bg: #f8f9fa;
-            --card-bg: #ffffff;
-            --text: #2b2d42;
+            --bg-main: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
         }
 
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); }
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; }
 
-        /* Header Ala Gacoan */
+        /* Top Header */
         header {
-            background: linear-gradient(135deg, #1d3557 0%, #000814 100%);
-            color: white;
-            padding: 1.2rem;
-            text-align: center;
-            border-bottom: 5px solid var(--secondary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: #0f172a;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
-        header h1 { margin: 0; font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; color: #fff; }
-        header h1 span { color: var(--secondary); }
+        .brand { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+        .brand span { color: #818cf8; }
 
-        /* Navigation Tabs */
-        nav { display: flex; justify-content: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        /* Navigation Pills */
+        nav { display: flex; gap: 8px; background: #1e293b; padding: 4px; border-radius: 99px; }
         nav button {
-            background: none; border: none; padding: 1rem 2.5rem; font-size: 1rem;
-            font-weight: 700; color: #8d99ae; cursor: pointer; transition: 0.3s;
-            border-bottom: 4px solid transparent;
+            background: none; border: none; padding: 8px 20px; font-size: 0.9rem;
+            font-weight: 600; color: #94a3b8; cursor: pointer; transition: 0.2s;
+            border-radius: 99px;
         }
-        nav button:hover, nav button.active { color: var(--primary); border-bottom-color: var(--primary); }
+        nav button.active { background: var(--primary); color: #fff; }
 
-        /* Container Layout */
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        /* Main Container */
+        .container { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; }
         .section { display: none; }
         .section.active { display: block; }
 
-        /* Kasir Layout (2 Kolom: Menu & Keranjang) */
-        .kasir-layout { display: grid; grid-template-columns: 1fr 340px; gap: 25px; }
-        @media (max-width: 900px) { .kasir-layout { grid-template-columns: 1fr; } }
+        /* Layout Kasir */
+        .kasir-grid { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
+        @media (max-width: 1024px) { .kasir-grid { grid-template-columns: 1fr; } }
 
-        .category-title {
-            font-size: 1.3rem; font-weight: 800; color: var(--dark);
-            margin: 20px 0 15px 0; display: flex; align-items: center; gap: 10px;
-        }
-        .category-title::before {
-            content: ''; display: inline-block; width: 8px; height: 24px;
-            background: var(--primary); border-radius: 4px;
-        }
+        .section-header { margin-bottom: 1.5rem; }
+        .section-title { font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; width: 4px; height: 18px; background: var(--primary); border-radius: 4px; }
 
         /* Menu Grid Card */
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
         .menu-card {
-            background: var(--card-bg); border-radius: 16px; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s;
+            background: var(--surface); border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: all 0.25s ease;
             display: flex; flex-direction: column; justify-content: space-between;
-            border: 1px solid #edf2f4;
         }
-        .menu-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.15); }
-        .menu-img { width: 100%; height: 130px; object-fit: cover; }
-        .menu-info { padding: 12px; }
-        .menu-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; color: var(--dark); }
-        .menu-price { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .menu-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
+        .menu-img-container { width: 100%; height: 120px; overflow: hidden; background: #f1f5f9; }
+        .menu-img { width: 100%; height: 100%; object-fit: cover; }
+        .menu-content { padding: 1rem; }
+        .menu-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .menu-price { color: var(--primary); font-weight: 800; font-size: 1.05rem; }
+        .btn-add-item {
+            width: 100%; background: #f1f5f9; color: var(--text-main); border: none;
+            padding: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s;
+            border-top: 1px solid var(--border);
+        }
+        .menu-card:hover .btn-add-item { background: var(--primary); color: white; }
+
+        /* Order Cart Sidebar */
+        .cart-panel {
+            background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem;
+            border: 1px solid var(--border); box-shadow: var(--shadow-md); position: sticky; top: 90px;
+        }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .cart-title { font-weight: 700; font-size: 1.1rem; }
         
-        .btn-add {
+        .cart-list { list-style: none; margin: 1rem 0; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem; }
+        .cart-item-info { display: flex; flex-direction: column; }
+        .cart-item-name { font-weight: 600; }
+        .cart-item-price { font-size: 0.8rem; color: var(--text-muted); }
+        .cart-controls { display: flex; align-items: center; gap: 8px; }
+        .btn-qty { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn-qty:hover { background: #cbd5e1; }
+
+        .cart-summary { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
+        .summary-row { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; }
+        .btn-checkout {
             width: 100%; background: var(--primary); color: white; border: none;
-            padding: 10px; font-weight: 700; cursor: pointer; transition: 0.2s;
-            border-radius: 0 0 16px 16px;
+            padding: 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.95rem;
+            cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-        .btn-add:hover { background: var(--primary-dark); }
+        .btn-checkout:hover { background: var(--primary-hover); }
 
-        /* Keranjang Kasir Sidebar */
-        .cart-box {
-            background: white; border-radius: 16px; padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: sticky; top: 20px; height: fit-content;
+        /* Layout Dapur */
+        .kitchen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .kitchen-card {
+            background: var(--surface); border-radius: var(--radius-lg); padding: 1.25rem;
+            border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;
         }
-        .cart-box h3 { margin-top: 0; border-bottom: 2px dashed #edf2f4; padding-bottom: 10px; color: var(--dark); }
-        .cart-list { list-style: none; padding: 0; margin: 0 0 20px 0; max-height: 300px; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f8f9fa; font-size: 0.9rem; }
-        .btn-del { background: #ff4d4d; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-weight: bold; }
-        
-        .btn-send {
-            width: 100%; background: var(--secondary); color: var(--dark); border: none;
-            padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1rem;
-            cursor: pointer; box-shadow: 0 4px 10px rgba(255, 183, 3, 0.4); transition: 0.2s;
+        .kitchen-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .order-badge { background: #e0e7ff; color: var(--primary); padding: 4px 10px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; }
+        .order-time { font-size: 0.8rem; color: var(--text-muted); }
+        .kitchen-items { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .kitchen-items li { font-weight: 600; font-size: 0.95rem; display: flex; justify-content: space-between; }
+        .btn-done {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 10px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: 0.2s;
         }
-        .btn-send:hover { background: #ffa700; transform: scale(1.02); }
-
-        /* Dapur Board Grid */
-        .kitchen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .order-card {
-            background: white; border-radius: 16px; padding: 20px;
-            border-top: 6px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
-        .order-card .header-order { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .badge-queue { background: var(--dark); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; }
-        .order-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
-        .order-list li { padding: 6px 0; border-bottom: 1px dashed #edf2f4; font-weight: 600; }
-        .btn-complete {
-            width: 100%; background: #2a9d8f; color: white; border: none;
-            padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;
-        }
-        .btn-complete:hover { background: #218376; }
+        .btn-done:hover { background: #059669; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>tora<span>.byka</span></h1>
+    <div class="brand">tora<span>.byka</span></div>
+    <nav>
+        <button class="active" onclick="showSection(event, 'kasir')">Kasir</button>
+        <button onclick="showSection(event, 'dapur')">Dapur</button>
+    </nav>
 </header>
-
-<nav>
-    <button class="active" onclick="showSection(event, 'kasir')">Kasir</button>
-    <button onclick="showSection(event, 'dapur')">Dapur</button>
-</nav>
 
 <div class="container">
     <!-- LAYAR KASIR -->
     <div id="kasir" class="section active">
-        <div class="kasir-layout">
+        <div class="kasir-grid">
+            <!-- Menu Area -->
             <div>
-                <div class="category-title">HTS (Hungry To Sandwich)</div>
+                <div class="section-header">
+                    <div class="section-title">HTS (Hungry To Sandwich)</div>
+                </div>
                 <div class="menu-grid">
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">HTS Common</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">HTS Common</div>
                             <div class="menu-price">Rp 10.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('HTS Common', 10000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('HTS Common', 10000)">+ Tambah</button>
                     </div>
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">HTS Double</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">HTS Double</div>
                             <div class="menu-price">Rp 13.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('HTS Double', 13000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('HTS Double', 13000)">+ Tambah</button>
                     </div>
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">HTS Monster</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">HTS Monster</div>
                             <div class="menu-price">Rp 15.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('HTS Monster', 15000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('HTS Monster', 15000)">+ Tambah</button>
                     </div>
                 </div>
 
-                <div class="category-title">Snack</div>
+                <div class="section-header">
+                    <div class="section-title">Snack</div>
+                </div>
                 <div class="menu-grid">
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">Martabak Mesir</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">Martabak Mesir</div>
                             <div class="menu-price">Rp 5.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('Martabak Mesir', 5000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('Martabak Mesir', 5000)">+ Tambah</button>
                     </div>
                 </div>
 
-                <div class="category-title">LDR (Beverages)</div>
+                <div class="section-header">
+                    <div class="section-title">LDR (Beverages)</div>
+                </div>
                 <div class="menu-grid">
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">LDR Mango Smoothies</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">LDR Mango Smoothies</div>
                             <div class="menu-price">Rp 8.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('LDR Mango Smoothies', 8000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('LDR Mango Smoothies', 8000)">+ Tambah</button>
                     </div>
                     <div class="menu-card">
-                        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop" class="menu-img">
-                        <div class="menu-info">
-                            <div class="menu-name">LDR Friendzone Creamy</div>
+                        <div class="menu-img-container">
+                            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format&fit=crop" class="menu-img">
+                        </div>
+                        <div class="menu-content">
+                            <div class="menu-title">LDR Friendzone Creamy</div>
                             <div class="menu-price">Rp 8.000</div>
                         </div>
-                        <button class="btn-add" onclick="tambahPesanan('LDR Friendzone Creamy', 8000)">+ Tambah</button>
+                        <button class="btn-add-item" onclick="tambahPesanan('LDR Friendzone Creamy', 8000)">+ Tambah</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Keranjang Belanja -->
-            <div>
-                <div class="cart-box">
-                    <h3>Draf Pesanan</h3>
-                    <ul id="daftar-pesanan" class="cart-list"></ul>
-                    <div style="display:flex; justify-size: space-between; font-weight:800; margin-bottom:15px;">
+            <!-- Cart Sidebar -->
+            <div class="cart-panel">
+                <div class="cart-header">
+                    <div class="cart-title">Detail Pesanan</div>
+                </div>
+                <ul id="daftar-pesanan" class="cart-list"></ul>
+                <div class="cart-summary">
+                    <div class="summary-row">
                         <span>Total:</span>
-                        <span id="total-harga" style="color:var(--primary);">Rp 0</span>
+                        <span id="total-harga">Rp 0</span>
                     </div>
-                    <button class="btn-send" onclick="kirimKeDapur()">Kirim ke Dapur 🔥</button>
+                    <button class="btn-checkout" onclick="kirimKeDapur()">Kirim ke Dapur</button>
                 </div>
             </div>
         </div>
@@ -207,15 +241,17 @@
 
     <!-- LAYAR DAPUR -->
     <div id="dapur" class="section">
-        <h2 style="color: var(--dark); margin-bottom: 20px;">Antrean Masuk Dapur</h2>
+        <div class="section-header">
+            <div class="section-title">Pesanan Masuk Dapur</div>
+        </div>
         <div id="daftar-dapur" class="kitchen-grid">
-            <p style="color: #8d99ae; font-style: italic;">Belum ada pesanan yang masuk...</p>
+            <p style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>
         </div>
     </div>
 </div>
 
 <script>
-    let pesananSementara = [];
+    let keranjang = [];
     let nomorAntrean = 1;
 
     function showSection(event, sectionId) {
@@ -226,12 +262,20 @@
     }
 
     function tambahPesanan(nama, harga) {
-        pesananSementara.push({ nama, harga });
+        let itemIndex = keranjang.findIndex(item => item.nama === nama);
+        if (itemIndex > -1) {
+            keranjang[itemIndex].qty += 1;
+        } else {
+            keranjang.push({ nama, harga, qty: 1 });
+        }
         renderPesananKasir();
     }
 
-    function hapusItem(index) {
-        pesananSementara.splice(index, 1);
+    function ubahQty(index, delta) {
+        keranjang[index].qty += delta;
+        if (keranjang[index].qty <= 0) {
+            keranjang.splice(index, 1);
+        }
         renderPesananKasir();
     }
 
@@ -241,21 +285,26 @@
         list.innerHTML = '';
         
         let total = 0;
-        if (pesananSementara.length === 0) {
-            list.innerHTML = '<li style="color: #8d99ae;">Belum ada item dipilih</li>';
+        if (keranjang.length === 0) {
+            list.innerHTML = '<li style="color: var(--text-muted); text-align: center; padding: 1rem 0;">Belum ada menu dipilih</li>';
             totalEl.textContent = 'Rp 0';
             return;
         }
 
-        pesananSementara.forEach((item, index) => {
-            total += item.harga;
+        keranjang.forEach((item, index) => {
+            let subtotal = item.harga * item.qty;
+            total += subtotal;
             let li = document.createElement('li');
             li.className = 'cart-item';
             li.innerHTML = `
-                <span>${item.nama}</span>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <strong>Rp ${item.harga.toLocaleString('id-ID')}</strong>
-                    <button class="btn-del" onclick="hapusItem(${index})">&times;</button>
+                <div class="cart-item-info">
+                    <span class="cart-item-name">${item.nama}</span>
+                    <span class="cart-item-price">Rp ${item.harga.toLocaleString('id-ID')}</span>
+                </div>
+                <div class="cart-controls">
+                    <button class="btn-qty" onclick="ubahQty(${index}, -1)">-</button>
+                    <span style="font-weight:700;">${item.qty}</span>
+                    <button class="btn-qty" onclick="ubahQty(${index}, 1)">+</button>
                 </div>
             `;
             list.appendChild(li);
@@ -264,10 +313,8 @@
         totalEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
     }
 
-    renderPesananKasir();
-
     function kirimKeDapur() {
-        if (pesananSementara.length === 0) {
+        if (keranjang.length === 0) {
             alert('Pilih menu terlebih dahulu!');
             return;
         }
@@ -277,40 +324,39 @@
             daftarDapur.innerHTML = '';
         }
 
-        let rekap = {};
-        pesananSementara.forEach(item => {
-            rekap[item.nama] = (rekap[item.nama] || 0) + 1;
+        let listHTML = '';
+        keranjang.forEach(item => {
+            listHTML += `<li><span>${item.nama}</span> <span>x${item.qty}</span></li>`;
         });
 
-        let listHTML = '';
-        for (let item in rekap) {
-            listHTML += `<li>${rekap[item]}x ${item}</li>`;
-        }
-
         const orderCard = document.createElement('div');
-        orderCard.className = 'order-card';
+        orderCard.className = 'kitchen-card';
         orderCard.innerHTML = `
-            <div class="header-order">
-                <span class="badge-queue">Antrean #${nomorAntrean}</span>
-                <span style="font-size:0.8rem; color:#8d99ae;">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</span>
+            <div>
+                <div class="kitchen-card-header">
+                    <span class="order-badge">Antrean #${nomorAntrean}</span>
+                    <span class="order-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+                <ul class="kitchen-items">${listHTML}</ul>
             </div>
-            <ul class="order-list">${listHTML}</ul>
-            <button class="btn-complete" onclick="tandaiSelesai(this)">Selesai Siap Saji ✓</button>
+            <button class="btn-done" onclick="tandaiSelesai(this)">Selesai Siap Saji ✓</button>
         `;
 
         daftarDapur.appendChild(orderCard);
-        pesananSementara = [];
+        keranjang = [];
         renderPesananKasir();
         nomorAntrean++;
     }
 
     function tandaiSelesai(button) {
-        button.parentElement.remove();
+        button.closest('.kitchen-card').remove();
         const daftarDapur = document.getElementById('daftar-dapur');
         if (daftarDapur.children.length === 0) {
-            daftarDapur.innerHTML = '<p style="color: #8d99ae; font-style: italic;">Belum ada pesanan yang masuk...</p>';
+            daftarDapur.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>';
         }
     }
+
+    renderPesananKasir();
 </script>
 </body>
 </html>
