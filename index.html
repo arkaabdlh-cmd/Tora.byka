@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tora.byka - Point of Sale & Kitchen</title>
+    <title>tora.byka - POS & Kitchen</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,7 +14,6 @@
             --primary: #4f46e5;
             --primary-hover: #4338ca;
             --accent: #10b981;
-            --danger: #ef4444;
             --border: #e2e8f0;
             --radius-lg: 16px;
             --radius-md: 12px;
@@ -23,7 +22,25 @@
         }
 
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; }
+        body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeOutSlide {
+            to { opacity: 0; transform: translateX(20px); }
+        }
+
+        .animate-fade { animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-pop { animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         /* Top Header */
         header {
@@ -44,7 +61,7 @@
         nav { display: flex; gap: 8px; background: #1e293b; padding: 4px; border-radius: 99px; }
         nav button {
             background: none; border: none; padding: 8px 20px; font-size: 0.9rem;
-            font-weight: 600; color: #94a3b8; cursor: pointer; transition: 0.2s;
+            font-weight: 600; color: #94a3b8; cursor: pointer; transition: all 0.25s ease;
             border-radius: 99px;
         }
         nav button.active { background: var(--primary); color: #fff; }
@@ -71,32 +88,43 @@
         }
         .menu-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
         .menu-img-container { width: 100%; height: 120px; overflow: hidden; background: #f1f5f9; }
-        .menu-img { width: 100%; height: 100%; object-fit: cover; }
+        .menu-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .menu-card:hover .menu-img { transform: scale(1.05); }
         .menu-content { padding: 1rem; }
         .menu-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
         .menu-price { color: var(--primary); font-weight: 800; font-size: 1.05rem; }
         .btn-add-item {
             width: 100%; background: #f1f5f9; color: var(--text-main); border: none;
-            padding: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s;
+            padding: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease;
             border-top: 1px solid var(--border);
         }
+        .btn-add-item:active { transform: scale(0.98); }
         .menu-card:hover .btn-add-item { background: var(--primary); color: white; }
 
-        /* Order Cart Sidebar */
+        /* Order Cart Sidebar & Inputs */
         .cart-panel {
             background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem;
             border: 1px solid var(--border); box-shadow: var(--shadow-md); position: sticky; top: 90px;
         }
         .cart-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
         .cart-title { font-weight: 700; font-size: 1.1rem; }
-        
-        .cart-list { list-style: none; margin: 1rem 0; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .form-group { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-input, .form-select {
+            padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-md);
+            font-size: 0.9rem; font-weight: 600; outline: none; transition: border-color 0.2s;
+            background: #f8fafc;
+        }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); background: #fff; }
+
+        .cart-list { list-style: none; margin: 1rem 0; max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem; }
         .cart-item-info { display: flex; flex-direction: column; }
         .cart-item-name { font-weight: 600; }
         .cart-item-price { font-size: 0.8rem; color: var(--text-muted); }
         .cart-controls { display: flex; align-items: center; gap: 8px; }
-        .btn-qty { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn-qty { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
         .btn-qty:hover { background: #cbd5e1; }
 
         .cart-summary { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; }
@@ -104,25 +132,31 @@
         .btn-checkout {
             width: 100%; background: var(--primary); color: white; border: none;
             padding: 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.95rem;
-            cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-        .btn-checkout:hover { background: var(--primary-hover); }
+        .btn-checkout:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        .btn-checkout:active { transform: translateY(0); }
 
         /* Layout Dapur */
         .kitchen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
         .kitchen-card {
             background: var(--surface); border-radius: var(--radius-lg); padding: 1.25rem;
             border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.3s ease;
         }
-        .kitchen-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .kitchen-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .order-badge { background: #e0e7ff; color: var(--primary); padding: 4px 10px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; }
-        .order-time { font-size: 0.8rem; color: var(--text-muted); }
+        .order-type-badge { background: #fef3c7; color: #d97706; padding: 4px 10px; border-radius: 99px; font-weight: 700; font-size: 0.75rem; }
+        .customer-info { margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .customer-name { font-weight: 800; font-size: 1.05rem; color: var(--text-main); }
+        .order-time { font-size: 0.75rem; color: var(--text-muted); }
+
         .kitchen-items { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
         .kitchen-items li { font-weight: 600; font-size: 0.95rem; display: flex; justify-content: space-between; }
         .btn-done {
             width: 100%; background: var(--accent); color: white; border: none;
             padding: 10px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem;
-            cursor: pointer; transition: 0.2s;
+            cursor: pointer; transition: background 0.2s;
         }
         .btn-done:hover { background: #059669; }
     </style>
@@ -139,7 +173,7 @@
 
 <div class="container">
     <!-- LAYAR KASIR -->
-    <div id="kasir" class="section active">
+    <div id="kasir" class="section active animate-fade">
         <div class="kasir-grid">
             <!-- Menu Area -->
             <div>
@@ -227,13 +261,28 @@
                 <div class="cart-header">
                     <div class="cart-title">Detail Pesanan</div>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Pelanggan</label>
+                    <input type="text" id="cust-name" class="form-input" placeholder="Masukkan nama..." autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tipe Pesanan</label>
+                    <select id="order-type" class="form-select">
+                        <option value="Dine In">Dine In (Makan di Tempat)</option>
+                        <option value="Take Away">Take Away (Bungkus)</option>
+                    </select>
+                </div>
+
                 <ul id="daftar-pesanan" class="cart-list"></ul>
+
                 <div class="cart-summary">
                     <div class="summary-row">
                         <span>Total:</span>
                         <span id="total-harga">Rp 0</span>
                     </div>
-                    <button class="btn-checkout" onclick="kirimKeDapur()">Kirim ke Dapur</button>
+                    <button class="btn-checkout" onclick="kirimKeDapur()">Kirim ke Dapur 🔥</button>
                 </div>
             </div>
         </div>
@@ -245,7 +294,7 @@
             <div class="section-title">Pesanan Masuk Dapur</div>
         </div>
         <div id="daftar-dapur" class="kitchen-grid">
-            <p style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>
+            <p id="empty-kitchen-msg" style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>
         </div>
     </div>
 </div>
@@ -255,9 +304,13 @@
     let nomorAntrean = 1;
 
     function showSection(event, sectionId) {
-        document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(el => {
+            el.classList.remove('active', 'animate-fade');
+        });
         document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
+        
+        const targetSection = document.getElementById(sectionId);
+        targetSection.classList.add('active', 'animate-fade');
         event.target.classList.add('active');
     }
 
@@ -295,7 +348,7 @@
             let subtotal = item.harga * item.qty;
             total += subtotal;
             let li = document.createElement('li');
-            li.className = 'cart-item';
+            li.className = 'cart-item animate-pop';
             li.innerHTML = `
                 <div class="cart-item-info">
                     <span class="cart-item-name">${item.nama}</span>
@@ -314,15 +367,24 @@
     }
 
     function kirimKeDapur() {
+        const custNameInput = document.getElementById('cust-name');
+        const orderTypeInput = document.getElementById('order-type');
+        const custName = custNameInput.value.trim();
+
+        if (!custName) {
+            alert('Mohon isi nama pelanggan terlebih dahulu!');
+            custNameInput.focus();
+            return;
+        }
+
         if (keranjang.length === 0) {
             alert('Pilih menu terlebih dahulu!');
             return;
         }
 
         const daftarDapur = document.getElementById('daftar-dapur');
-        if (nomorAntrean === 1 && daftarDapur.innerHTML.includes('Belum ada pesanan')) {
-            daftarDapur.innerHTML = '';
-        }
+        const emptyMsg = document.getElementById('empty-kitchen-msg');
+        if (emptyMsg) emptyMsg.remove();
 
         let listHTML = '';
         keranjang.forEach(item => {
@@ -330,12 +392,16 @@
         });
 
         const orderCard = document.createElement('div');
-        orderCard.className = 'kitchen-card';
+        orderCard.className = 'kitchen-card animate-pop';
         orderCard.innerHTML = `
             <div>
                 <div class="kitchen-card-header">
                     <span class="order-badge">Antrean #${nomorAntrean}</span>
-                    <span class="order-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</span>
+                    <span class="order-type-badge">${orderTypeInput.value}</span>
+                </div>
+                <div class="customer-info">
+                    <div class="customer-name">${custName}</div>
+                    <div class="order-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})} WIB</div>
                 </div>
                 <ul class="kitchen-items">${listHTML}</ul>
             </div>
@@ -343,17 +409,25 @@
         `;
 
         daftarDapur.appendChild(orderCard);
+        
+        // Reset Cart & Form
         keranjang = [];
+        custNameInput.value = '';
         renderPesananKasir();
         nomorAntrean++;
     }
 
     function tandaiSelesai(button) {
-        button.closest('.kitchen-card').remove();
-        const daftarDapur = document.getElementById('daftar-dapur');
-        if (daftarDapur.children.length === 0) {
-            daftarDapur.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>';
-        }
+        const card = button.closest('.kitchen-card');
+        card.style.animation = 'fadeOutSlide 0.3s forwards';
+        
+        setTimeout(() => {
+            card.remove();
+            const daftarDapur = document.getElementById('daftar-dapur');
+            if (daftarDapur.children.length === 0) {
+                daftarDapur.innerHTML = '<p id="empty-kitchen-msg" style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>';
+            }
+        }, 300);
     }
 
     renderPesananKasir();
