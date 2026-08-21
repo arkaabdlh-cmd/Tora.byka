@@ -125,6 +125,17 @@
         }
         .sync-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
+        /* Fitur Omset Harian Bar */
+        .sales-summary-bar {
+            display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .summary-card {
+            background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 0.85rem 1.25rem; flex: 1; min-width: 200px; box-shadow: var(--shadow-sm);
+        }
+        .summary-card .title { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .summary-card .value { font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-top: 2px; }
+
         .kasir-grid { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
         @media (max-width: 1024px) { .kasir-grid { grid-template-columns: 1fr; } }
 
@@ -174,11 +185,13 @@
         .cart-panel {
             background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem;
             border: 1px solid var(--border); box-shadow: var(--shadow-md); position: sticky; top: 90px;
-            display: flex; flex-direction: column; gap: 1.25rem;
+            display: flex; flex-direction: column; gap: 1rem;
         }
-        .panel-header { font-weight: 700; font-size: 1.1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .btn-clear { background: #fee2e2; color: #dc2626; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+        .btn-clear:hover { background: #fca5a5; }
 
-        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
         .form-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .form-input, .form-select {
             padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-md);
@@ -186,31 +199,33 @@
         }
         .form-input:focus, .form-select:focus { border-color: var(--primary); background: #fff; }
 
-        .cart-list { list-style: none; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem; }
+        .cart-list { list-style: none; max-height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 0.6rem 0.8rem; border-radius: var(--radius-md); font-size: 0.85rem; }
         .cart-item-info { display: flex; flex-direction: column; }
         .cart-item-name { font-weight: 600; }
-        .cart-item-price { font-size: 0.8rem; color: var(--text-muted); }
+        .cart-item-price { font-size: 0.75rem; color: var(--text-muted); }
         .cart-controls { display: flex; align-items: center; gap: 8px; }
-        .btn-qty { background: #e2e8f0; border: none; width: 24px; height: 24px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-qty { background: #e2e8f0; border: none; width: 22px; height: 22px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .btn-qty:hover { background: #cbd5e1; transform: scale(1.1); }
 
-        .cart-summary { border-top: 1px solid var(--border); padding-top: 1rem; }
-        .summary-row { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; }
+        .cart-summary { border-top: 1px solid var(--border); padding-top: 0.8rem; }
+        .summary-row { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin-bottom: 0.8rem; }
         .btn-checkout {
             width: 100%; background: var(--primary); color: white; border: none;
-            padding: 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.95rem;
+            padding: 12px; border-radius: var(--radius-md); font-weight: 700; font-size: 0.95rem;
             cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
         .btn-checkout:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4); }
 
-        .ready-panel { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-md); padding: 1rem; }
+        .ready-panel { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-md); padding: 0.85rem; }
         .ready-title { font-size: 0.85rem; font-weight: 800; color: #065f46; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
         .ready-list { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; }
         .ready-item {
             background: #ffffff; padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
-            color: #047857; display: flex; justify-content: space-between; border: 1px solid #d1fae5;
+            color: #047857; display: flex; justify-content: space-between; align-items: center; border: 1px solid #d1fae5;
         }
+        .btn-print { background: #10b981; color: white; border: none; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
+        .btn-print:hover { background: #059669; }
 
         .section-header { margin-bottom: 1.5rem; }
         .section-title { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
@@ -223,9 +238,10 @@
         .kitchen-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .order-badge { background: #e0e7ff; color: var(--primary); padding: 4px 10px; border-radius: 99px; font-weight: 700; font-size: 0.8rem; }
         .order-type-badge { background: #fef3c7; color: #d97706; padding: 4px 10px; border-radius: 99px; font-weight: 700; font-size: 0.75rem; }
-        .customer-info { margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .customer-info { margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
         .customer-name { font-weight: 800; font-size: 1.05rem; color: var(--text-main); }
         .order-time { font-size: 0.75rem; color: var(--text-muted); }
+        .order-notes { font-size: 0.8rem; color: #dc2626; font-weight: 700; margin-top: 4px; background: #fef2f2; padding: 4px 8px; border-radius: 6px; }
 
         .kitchen-items { list-style: none; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
         .kitchen-items li { font-weight: 600; font-size: 0.95rem; display: flex; justify-content: space-between; }
@@ -273,6 +289,18 @@
         </div>
     </div>
 
+    <!-- Ringkasan Omset & Pesanan (Fitur Baru) -->
+    <div class="sales-summary-bar animate-fade">
+        <div class="summary-card">
+            <div class="title">Total Omset Harian</div>
+            <div class="value" id="stat-omset">Rp 0</div>
+        </div>
+        <div class="summary-card">
+            <div class="title">Pesanan Selesai</div>
+            <div class="value" id="stat-pesanan">0 Transaksi</div>
+        </div>
+    </div>
+
     <!-- LAYAR KASIR -->
     <div id="kasir" class="section active animate-fade">
         <div class="kasir-grid">
@@ -315,6 +343,16 @@
                             <div class="menu-price">Rp 15.000</div>
                         </div>
                         <button class="btn-add-item" onclick="tambahPesanan('HTS Monster', 15000)">+ Tambah</button>
+                    </div>
+
+                    <!-- Snack: Martabak (MENU BARU) -->
+                    <div class="menu-card" data-category="snack" data-name="martabak">
+                        <div class="menu-img-container"><img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&auto=format&fit=crop" class="menu-img" alt="Martabak"></div>
+                        <div class="menu-content">
+                            <div class="menu-title">Martabak</div>
+                            <div class="menu-price">Rp 5.000</div>
+                        </div>
+                        <button class="btn-add-item" onclick="tambahPesanan('Martabak', 5000)">+ Tambah</button>
                     </div>
 
                     <!-- Snack: Potato Ball -->
@@ -375,7 +413,10 @@
 
             <!-- Cart Sidebar -->
             <div class="cart-panel">
-                <div class="panel-header">Detail Pesanan</div>
+                <div class="panel-header">
+                    <span>Detail Pesanan</span>
+                    <button class="btn-clear" onclick="kosongkanKeranjang()">Reset 🗑️</button>
+                </div>
 
                 <div class="form-group">
                     <label class="form-label">Nama Pelanggan</label>
@@ -388,6 +429,12 @@
                         <option value="Dine In">Dine In (Makan di Tempat)</option>
                         <option value="Take Away">Take Away (Bungkus)</option>
                     </select>
+                </div>
+
+                <!-- Fitur Catatan Tambahan -->
+                <div class="form-group">
+                    <label class="form-label">Catatan Pesanan (Opsional)</label>
+                    <input type="text" id="order-notes" class="form-input" placeholder="misal: Pedas / Tanpa es..." autocomplete="off">
                 </div>
 
                 <ul id="daftar-pesanan" class="cart-list"></ul>
@@ -425,6 +472,9 @@
     let keranjang = [];
     let nomorAntrean = 1;
     let selectedCategory = 'all';
+    let totalOmset = 0;
+    let totalTransaksiSelesai = 0;
+    let riwayatPesanan = {};
 
     // WEBRTC PEERJS
     let peer = null;
@@ -471,7 +521,7 @@
                 buatToast(`Pesanan Baru Masuk! #${data.order.antrean}`);
             } 
             else if (data.type === 'ORDER_DONE') {
-                tambahKeDaftarSelesai(data.antrean, data.nama);
+                tambahKeDaftarSelesai(data.antrean, data.nama, data.total);
                 buatToast(`Antrean #${data.antrean} (${data.nama}) Siap Disajikan!`);
             }
         });
@@ -540,13 +590,11 @@
         event.target.classList.add('active');
     }
 
-    // FUNGSI POTATO BALL
     function tambahPotatoBall() {
         const flavor = document.getElementById('potato-flavor').value;
         tambahPesanan(`Potato Ball (${flavor})`, 5000);
     }
 
-    // FUNGSI LDR DRINKS DENGAN TOPPING
     function tambahLDR(namaMenu, hargaDasar, selectId) {
         const select = document.getElementById(selectId);
         const toppingOpt = select.options[select.selectedIndex];
@@ -578,12 +626,24 @@
         renderPesananKasir();
     }
 
+    function kosongkanKeranjang() {
+        if (keranjang.length === 0) return;
+        if (confirm('Kosongkan keranjang belanja?')) {
+            keranjang = [];
+            renderPesananKasir();
+        }
+    }
+
+    function hitungTotalKeranjang() {
+        return keranjang.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+    }
+
     function renderPesananKasir() {
         const list = document.getElementById('daftar-pesanan');
         const totalEl = document.getElementById('total-harga');
         list.innerHTML = '';
         
-        let total = 0;
+        let total = hitungTotalKeranjang();
         if (keranjang.length === 0) {
             list.innerHTML = '<li style="color: var(--text-muted); text-align: center; padding: 1rem 0;">Belum ada menu dipilih</li>';
             totalEl.textContent = 'Rp 0';
@@ -591,8 +651,6 @@
         }
 
         keranjang.forEach((item, index) => {
-            let subtotal = item.harga * item.qty;
-            total += subtotal;
             let li = document.createElement('li');
             li.className = 'cart-item animate-pop';
             li.innerHTML = `
@@ -615,6 +673,7 @@
     function kirimKeDapur() {
         const custNameInput = document.getElementById('cust-name');
         const orderTypeInput = document.getElementById('order-type');
+        const notesInput = document.getElementById('order-notes');
         const custName = custNameInput.value.trim();
 
         if (!custName) { alert('Mohon isi nama pelanggan!'); custNameInput.focus(); return; }
@@ -623,13 +682,19 @@
         const loading = document.getElementById('loading-overlay');
         loading.style.display = 'flex';
 
+        const totalHargaPesanan = hitungTotalKeranjang();
         const orderData = {
             antrean: nomorAntrean,
             nama: custName,
             tipe: orderTypeInput.value,
+            catatan: notesInput.value.trim(),
             waktu: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
-            items: [...keranjang]
+            items: [...keranjang],
+            total: totalHargaPesanan
         };
+
+        // Simpan ke riwayat untuk cetak struk
+        riwayatPesanan[orderData.antrean] = orderData;
 
         setTimeout(() => {
             loading.style.display = 'none';
@@ -642,6 +707,7 @@
 
             keranjang = [];
             custNameInput.value = '';
+            notesInput.value = '';
             renderPesananKasir();
             nomorAntrean++;
 
@@ -659,10 +725,12 @@
             listHTML += `<li><span>${item.nama}</span> <span>x${item.qty}</span></li>`;
         });
 
+        const notesHTML = order.catatan ? `<div class="order-notes">📌 Catatan: ${order.catatan}</div>` : '';
+
         const orderCard = document.createElement('div');
         orderCard.className = 'kitchen-card animate-pop';
         orderCard.dataset.antrean = order.antrean;
-        orderCard.dataset.nama = order.nama;
+        orderCard.dataset.total = order.total;
         orderCard.innerHTML = `
             <div>
                 <div class="kitchen-card-header">
@@ -672,15 +740,16 @@
                 <div class="customer-info">
                     <div class="customer-name">${order.nama}</div>
                     <div class="order-time">${order.waktu} WIB</div>
+                    ${notesHTML}
                 </div>
                 <ul class="kitchen-items">${listHTML}</ul>
             </div>
-            <button class="btn-done" onclick="selesaiPesanan(this, ${order.antrean}, '${order.nama}')">Selesai / Saji ✅</button>
+            <button class="btn-done" onclick="selesaiPesanan(this, ${order.antrean}, '${order.nama}', ${order.total})">Selesai / Saji ✅</button>
         `;
         daftarDapur.prepend(orderCard);
     }
 
-    function selesaiPesanan(btn, antrean, nama) {
+    function selesaiPesanan(btn, antrean, nama, total) {
         const card = btn.closest('.kitchen-card');
         card.remove();
 
@@ -689,24 +758,92 @@
             document.getElementById('daftar-dapur').innerHTML = '<p id="empty-kitchen-msg" style="color: var(--text-muted); font-style: italic;">Belum ada pesanan aktif...</p>';
         }
 
-        tambahKeDaftarSelesai(antrean, nama);
+        tambahKeDaftarSelesai(antrean, nama, total);
 
         if (conn && conn.open) {
-            conn.send({ type: 'ORDER_DONE', antrean, nama });
+            conn.send({ type: 'ORDER_DONE', antrean, nama, total });
         }
     }
 
-    function tambahKeDaftarSelesai(antrean, nama) {
+    function tambahKeDaftarSelesai(antrean, nama, total) {
         const readyList = document.getElementById('ready-list');
         const emptyMsg = readyList.querySelector('li');
         if (emptyMsg && emptyMsg.textContent.includes('Belum ada')) {
             readyList.innerHTML = '';
         }
 
+        // Update Omset & Ringkasan Laporan
+        if (total) {
+            totalOmset += total;
+            totalTransaksiSelesai += 1;
+            document.getElementById('stat-omset').textContent = `Rp ${totalOmset.toLocaleString('id-ID')}`;
+            document.getElementById('stat-pesanan').textContent = `${totalTransaksiSelesai} Transaksi`;
+        }
+
         const li = document.createElement('li');
         li.className = 'ready-item animate-pop';
-        li.innerHTML = `<span>#${antrean} - ${nama}</span> <span>SIAP</span>`;
+        li.innerHTML = `
+            <span>#${antrean} - ${nama}</span> 
+            <button class="btn-print" onclick="cetakStruk(${antrean})">🖨️ Struk</button>
+        `;
         readyList.prepend(li);
+    }
+
+    // Fitur Baru: Cetak Struk
+    function cetakStruk(antrean) {
+        const order = riwayatPesanan[antrean];
+        if (!order) {
+            alert('Data pesanan tidak ditemukan!');
+            return;
+        }
+
+        let printWindow = window.open('', '', 'width=300,height=400');
+        let itemRows = order.items.map(item => `
+            <tr>
+                <td style="font-size:12px;">${item.nama} x${item.qty}</td>
+                <td style="font-size:12px; text-align:right;">Rp ${(item.harga * item.qty).toLocaleString('id-ID')}</td>
+            </tr>
+        `).join('');
+
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>Struk #${order.antrean}</title>
+                <style>
+                    body { font-family: monospace; padding: 10px; width: 250px; font-size: 12px; }
+                    .center { text-align: center; }
+                    .divider { border-top: 1px dashed #000; margin: 8px 0; }
+                    table { width: 100%; }
+                </style>
+            </head>
+            <body>
+                <div class="center">
+                    <h3>tora.byka</h3>
+                    <p>Antrean #${order.antrean}</p>
+                </div>
+                <div class="divider"></div>
+                <p>Pelanggan: ${order.nama}<br>
+                Tipe: ${order.tipe}<br>
+                Waktu: ${order.waktu}</p>
+                ${order.catatan ? `<p>Catatan: ${order.catatan}</p>` : ''}
+                <div class="divider"></div>
+                <table>${itemRows}</table>
+                <div class="divider"></div>
+                <table>
+                    <tr>
+                        <td><b>Total:</b></td>
+                        <td style="text-align:right;"><b>Rp ${order.total.toLocaleString('id-ID')}</b></td>
+                    </tr>
+                </table>
+                <div class="divider"></div>
+                <div class="center"><p>Terima Kasih!</p></div>
+                <script>
+                    window.onload = function() { window.print(); window.close(); }
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
     }
 
     window.onload = initPeer;
